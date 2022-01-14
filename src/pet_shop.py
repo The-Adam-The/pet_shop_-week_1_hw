@@ -31,6 +31,8 @@ def remove_pet_by_name(dict, pet_name):
     for pet in dict["pets"]:
         if pet["name"] == pet_name:
             dict["pets"].remove(pet)
+            return True
+    return False
 
 def add_pet_to_stock(dict, pet_dict):
     dict["pets"].append(pet_dict)
@@ -47,4 +49,23 @@ def get_customer_pet_count(customer_dict):
 def add_pet_to_customer(customer_dict, new_pet_dict):
     customer_dict["pets"].append(new_pet_dict)
 
+def customer_can_afford_pet(customer_dict, new_pet_dict):
+    if customer_dict["cash"] >= new_pet_dict["price"]:
+        return True
+    else:
+        return False
 
+def sell_pet_to_customer(pet_shop_dict, pet_dict, customer_dict):
+    
+        if pet_dict:
+            if customer_can_afford_pet(customer_dict, pet_dict):
+                remove_pet_by_name(pet_shop_dict, pet_dict["name"])
+                add_pet_to_customer(customer_dict, pet_dict)
+                remove_customer_cash(customer_dict, pet_dict["price"])
+                add_or_remove_cash(pet_shop_dict, pet_dict["price"])
+                increase_pets_sold(pet_shop_dict, 1)
+        else:
+            pass
+   
+                 
+    
